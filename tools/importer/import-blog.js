@@ -5,6 +5,7 @@
 import columnsArticleParser from './parsers/columns-article.js';
 
 // TRANSFORMER IMPORTS
+import blogMetadataTransformer from './transformers/wknd-trendsetters-blog-metadata.js';
 import cleanupTransformer from './transformers/wknd-trendsetters-cleanup.js';
 import sectionsTransformer from './transformers/wknd-trendsetters-sections.js';
 
@@ -29,8 +30,11 @@ const PAGE_TEMPLATE = {
   ],
 };
 
-// TRANSFORMER REGISTRY — cleanup first, then section breaks (afterTransform)
+// TRANSFORMER REGISTRY — blog metadata captures masthead category/date/image
+// (beforeTransform) then writes the metadata block (afterTransform) BEFORE cleanup
+// strips chrome; cleanup next; section breaks last.
 const transformers = [
+  blogMetadataTransformer,
   cleanupTransformer,
   ...(PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [sectionsTransformer] : []),
 ];
