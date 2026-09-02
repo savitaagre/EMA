@@ -1,0 +1,57 @@
+/* cards-feature — 3-column feature grid (image + heading + description)
+   Values extracted from source computed styles:
+   #main-content > section.section.secondary-section .grid-layout.desktop-3-column */
+
+.cards-feature > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr; /* mobile: single column */
+  gap: 24px;
+}
+
+.cards-feature > ul > li {
+  /* card is a plain block: no border, padding, background or radius on source */
+  display: block;
+}
+
+.cards-feature .cards-feature-card-image {
+  line-height: 0;
+}
+
+.cards-feature .cards-feature-card-image img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.cards-feature .cards-feature-card-body {
+  margin: 24px 0 0; /* gap between image and text */
+}
+
+.cards-feature .cards-feature-card-body h3 {
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.cards-feature .cards-feature-card-body p {
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgb(102 102 102);
+  margin: 8px 0 0;
+}
+
+@media (width >= 900px) {
+  .cards-feature > ul {
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns on desktop */
+  }
+}

@@ -1,0 +1,96 @@
+/* columns-media — two-column media + text block.
+ * Values extracted from source computed styles:
+ * https://wknd-trendsetters.site/fashion-trends-of-the-season (#trends)
+ */
+
+/* --- Layout: mobile-first (stacked, image first) --- */
+.columns-media > div {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.columns-media > div > div {
+  order: 1;
+}
+
+.columns-media > div > .columns-media-img-col {
+  order: 0;
+}
+
+/* --- Image --- */
+.columns-media img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+/* --- Text content --- */
+.columns-media h3 {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.columns-media p {
+  margin: 16px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #404040;
+}
+
+/* --- CTA button ---
+ * The authored CTA is a plain link (no strong/em), so scripts.js does not
+ * buttonize it. Style the bare <a> as a primary black pill directly.
+ * The block has no inline links in its copy, so `.columns-media a` is safe.
+ */
+.columns-media p:has(> a:only-child) {
+  margin: 32px 0 0;
+}
+
+.columns-media a:any-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--text-color);
+  border-radius: 9999px;
+  padding: 12px 24px;
+  background-color: var(--text-color);
+  color: var(--background-color);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.columns-media a:any-link:hover,
+.columns-media a:any-link:focus-visible {
+  border-color: var(--dark-color);
+  background-color: var(--dark-color);
+  color: var(--background-color);
+  text-decoration: none;
+}
+
+/* --- Desktop: 2-column grid, vertically centered --- */
+@media (width >= 900px) {
+  .columns-media > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .columns-media > div > div,
+  .columns-media > div > .columns-media-img-col {
+    order: unset;
+  }
+}

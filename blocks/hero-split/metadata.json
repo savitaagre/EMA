@@ -1,0 +1,37 @@
+{
+  "variantName": "hero-split",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-09-01T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd-trendsetters.site/fashion-trends-of-the-season",
+    "originPage": "fashion trends landing page",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "secondary",
+    "density": "spacious",
+    "purpose": "hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "heading + subheading + 2 CTAs + image stack",
+    "buttonCount": 2,
+    "imageCount": 3
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "landing page intros with a text column and adjacent imagery",
+      "editorial hero sections on secondary background"
+    ],
+    "notSuitableFor": [
+      "full-bleed background-image heroes",
+      "text-only heroes"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/fashion-trends-of-the-season", "/magazine/article-1"],
+    "reuseCount": 2,
+    "lastUsed": "2026-09-02T00:00:00.000Z"
+  }
+}

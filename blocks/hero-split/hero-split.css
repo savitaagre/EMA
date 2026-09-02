@@ -1,0 +1,94 @@
+/* hero-split — two-column hero: content + stacked image grid */
+
+.hero-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.hero-split > div {
+  margin: 0;
+}
+
+/* --- Content column --- */
+.hero-split .hero-split-content > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-split h1 {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.hero-split .hero-split-content p {
+  margin: 24px 0 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+/* --- CTA buttons --- */
+.hero-split .hero-split-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.hero-split .hero-split-buttons a.button {
+  margin: 0;
+}
+
+/* --- Media column: 2-col image grid (2 top, 1 bottom) --- */
+.hero-split .hero-split-media > div {
+  margin: 0;
+}
+
+.hero-split .hero-split-media p {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 0;
+}
+
+.hero-split .hero-split-media picture {
+  display: block;
+  line-height: 0;
+}
+
+.hero-split .hero-split-media img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+@media (width >= 900px) {
+  .hero-split {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+
+  /* content on the left, media on the right */
+  .hero-split .hero-split-content {
+    order: 1;
+  }
+
+  .hero-split .hero-split-media {
+    order: 2;
+  }
+
+  .hero-split h1 {
+    font-size: 56px;
+  }
+}

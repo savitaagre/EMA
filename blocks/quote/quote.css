@@ -1,0 +1,59 @@
+/* Quote block — styled to brand tokens. */
+
+.quote .quote-figure {
+  margin: 0;
+  max-width: 900px;
+  padding: 40px 0;
+}
+
+.quote .quote-text {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-size-l);
+  font-weight: 700;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.quote .quote-text p {
+  margin: 0 0 0.5em;
+}
+
+.quote .quote-text p:last-child {
+  margin-bottom: 0;
+}
+
+.quote .quote-attribution {
+  margin-top: 24px;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s);
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+.quote .quote-attribution::before {
+  content: '— ';
+}
+
+/* Centered variant: <div class="quote center"> */
+.quote.center .quote-figure {
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* Accent variant on a lime section reads on dark text automatically;
+   also usable as a standalone highlighted quote card. */
+.quote.accent .quote-figure {
+  background-color: var(--accent-color);
+  max-width: none;
+  padding: 40px;
+  border-radius: 16px;
+}
+
+@media (width >= 900px) {
+  .quote .quote-text {
+    font-size: var(--heading-size-xl);
+  }
+}

@@ -1,0 +1,93 @@
+/* columns-article — article masthead
+ * Values extracted from source computed styles:
+ * grid 2x equal cols, gap 24px, align-items center; image border-radius 20px,
+ * aspect 3:2, object-fit cover; breadcrumb links 16px/500; h2 40px/44px uppercase;
+ * byline 14px #666. */
+
+.columns-article > div {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* image column */
+.columns-article img {
+  display: block;
+  width: 100%;
+}
+
+.columns-article > div > .columns-article-img-col {
+  order: 0;
+}
+
+.columns-article > div > .columns-article-img-col img {
+  aspect-ratio: 3 / 2;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+/* text column */
+.columns-article > div > div:not(.columns-article-img-col) {
+  order: 1;
+}
+
+/* breadcrumb — first paragraph holds the links */
+.columns-article > div > div:not(.columns-article-img-col) > p:first-of-type {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 32px;
+  font-size: 16px;
+}
+
+.columns-article > div > div:not(.columns-article-img-col) > p:first-of-type a {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.columns-article > div > div:not(.columns-article-img-col) > p:first-of-type a + a::before {
+  content: "›";
+  margin-right: 8px;
+  color: rgb(102 102 102);
+  font-weight: 400;
+}
+
+/* title */
+.columns-article > div > div:not(.columns-article-img-col) > h2 {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+/* byline rows — the two paragraphs after the title */
+.columns-article > div > div:not(.columns-article-img-col) > p:nth-of-type(2) {
+  margin: 16px 0 0;
+  font-size: 14px;
+  color: rgb(102 102 102);
+}
+
+.columns-article > div > div:not(.columns-article-img-col) > p:nth-of-type(3) {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: rgb(102 102 102);
+}
+
+@media (width >= 900px) {
+  .columns-article > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .columns-article > div > div {
+    order: unset;
+  }
+
+  .columns-article > div > div:not(.columns-article-img-col) > h2 {
+    font-size: 40px;
+    line-height: 44px;
+  }
+}
