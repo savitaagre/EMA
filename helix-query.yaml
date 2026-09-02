@@ -1,0 +1,31 @@
+version: 1
+
+indices:
+  # Blog article index — feeds the Article List block (/query-index.json under /blog/).
+  # NOTE: this repo's AGENTS.md marks helix-query.yaml as retired in favor of
+  # tools.aem.live config; this file is committed per an explicit project decision.
+  blog:
+    include:
+      - '/blog/**'
+    exclude:
+      - '/blog'          # the blog index/listing page itself, not an article
+    target: /blog/query-index.json
+    properties:
+      title:
+        select: head > meta[property="og:title"]
+        value: attribute(el, "content")
+      description:
+        select: head > meta[name="description"]
+        value: attribute(el, "content")
+      image:
+        select: head > meta[property="og:image"]
+        value: attribute(el, "content")
+      category:
+        select: head > meta[name="category"]
+        value: attribute(el, "content")
+      date:
+        select: head > meta[name="publication-date"]
+        value: attribute(el, "content")
+      lastModified:
+        select: none
+        value: parseTimestamp(headers("last-modified"), "ddd, DD MMM YYYY hh:mm:ss GMT")

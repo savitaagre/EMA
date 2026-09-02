@@ -62,12 +62,69 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
-  // tools/importer/transformers/wknd-trendsetters-cleanup.js
+  // tools/importer/transformers/wknd-trendsetters-blog-metadata.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
+  var DATE_RE = /^(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(,\s*\d{4})?$/;
+  var captured = /* @__PURE__ */ new WeakMap();
+  function isBlog(payload) {
+    var _a;
+    try {
+      const url = payload && (((_a = payload.params) == null ? void 0 : _a.originalURL) || payload.url);
+      return url ? new URL(url).pathname.startsWith("/blog/") : false;
+    } catch (e) {
+      return false;
+    }
+  }
   function transform(hookName, element, payload) {
+    if (!isBlog(payload)) return;
     if (hookName === TransformHook.beforeTransform) {
+      const data = {};
+      const tag = element.querySelector(".tag");
+      if (tag && tag.textContent.trim()) data.category = tag.textContent.trim();
+      const dateEl = [...element.querySelectorAll("p, div, span, time")].find((el) => DATE_RE.test(el.textContent.trim()));
+      if (dateEl) data.date = dateEl.textContent.trim();
+      const cover = element.querySelector("img.cover-image, .cover-image img") || element.querySelector("img");
+      if (cover && cover.getAttribute("src")) data.image = cover;
+      captured.set(payload.document, data);
     }
     if (hookName === TransformHook.afterTransform) {
+      const data = captured.get(payload.document) || {};
+      const { document: document2 } = payload;
+      let metaBlock = element.querySelector(".metadata");
+      const rows = [];
+      if (data.category) rows.push(["Category", data.category]);
+      if (data.date) rows.push(["Publication Date", data.date]);
+      if (data.image) {
+        rows.push(["Image", data.image]);
+      }
+      if (rows.length === 0) return;
+      if (!metaBlock) {
+        metaBlock = WebImporter.Blocks.createBlock(document2, {
+          name: "Metadata",
+          cells: rows
+        });
+        element.append(metaBlock);
+      } else {
+        rows.forEach(([key, value]) => {
+          const row = document2.createElement("div");
+          const k = document2.createElement("div");
+          k.textContent = key;
+          const v = document2.createElement("div");
+          if (typeof value === "string") v.textContent = value;
+          else v.append(value);
+          row.append(k, v);
+          metaBlock.append(row);
+        });
+      }
+    }
+  }
+
+  // tools/importer/transformers/wknd-trendsetters-cleanup.js
+  var TransformHook2 = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
+  function transform2(hookName, element, payload) {
+    if (hookName === TransformHook2.beforeTransform) {
+    }
+    if (hookName === TransformHook2.afterTransform) {
       WebImporter.DOMUtils.remove(element, [
         "a.skip-link",
         ".navbar",
@@ -78,7 +135,7 @@ var CustomImportScript = (() => {
 
   // tools/importer/transformers/wknd-trendsetters-sections.js
   var SECTION_MARKER_ATTR = "data-excat-section-id";
-  function transform2(hookName, element, payload) {
+  function transform3(hookName, element, payload) {
     const sections = payload.template && payload.template.sections || [];
     if (hookName === "beforeTransform") {
       for (let i = sections.length - 1; i >= 0; i -= 1) {
@@ -131,7 +188,8 @@ var CustomImportScript = (() => {
   };
   var transformers = [
     transform,
-    ...PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [transform2] : []
+    transform2,
+    ...PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [transform3] : []
   ];
   function executeTransformers(hookName, element, payload) {
     const enhancedPayload = __spreadProps(__spreadValues({}, payload), { template: PAGE_TEMPLATE });
