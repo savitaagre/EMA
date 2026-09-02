@@ -1,0 +1,31 @@
+/* Spec block — key/value specification table, styled to brand tokens. */
+
+.spec table {
+  width: 100%;
+  max-width: 640px;
+  border-collapse: collapse;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s);
+}
+
+.spec tr {
+  border-bottom: 1px solid var(--light-color);
+}
+
+.spec tr:last-child {
+  border-bottom: 0;
+}
+
+.spec th {
+  text-align: left;
+  vertical-align: top;
+  padding: 12px 24px 12px 0;
+  font-weight: 700;
+  color: var(--text-color);
+  white-space: nowrap;
+}
+
+.spec td {
+  padding: 12px 0;
+  color: var(--text-color);
+}

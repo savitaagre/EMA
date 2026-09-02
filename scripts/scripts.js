@@ -143,6 +143,51 @@ function decorateButtons(main) {
 }
 
 /**
+ * Applies `section-metadata` blocks to their parent section as classes/data
+ * attributes, then removes the block. The vendored aem.js `decorateSections`
+ * does not process section metadata, so we handle it here (run after
+ * `decorateSections` and before `decorateBlocks` so the metadata block is
+ * never decorated/loaded as a real block).
+ * @param {Element} main The main container element
+ */
+function decorateSectionMetadata(main) {
+  main.querySelectorAll('.section > div > .section-metadata').forEach((sectionMeta) => {
+    const section = sectionMeta.closest('.section');
+    [...sectionMeta.children].forEach((row) => {
+      const cells = row.children;
+      if (cells.length < 2) return;
+      const key = cells[0].textContent.trim().toLowerCase();
+      const value = cells[1].textContent.trim();
+      if (!key || !value) return;
+      if (key === 'style') {
+        value.split(',').forEach((style) => {
+          const cls = style.trim().toLowerCase().replace(/[^0-9a-z]+/g, '-').replace(/^-+|-+$/g, '');
+          if (cls) section.classList.add(cls);
+        });
+      } else {
+        section.dataset[key.replace(/-([a-z])/g, (m, c) => c.toUpperCase())] = value;
+      }
+    });
+    // remove the metadata block along with its (now empty) section wrapper
+    sectionMeta.parentNode.remove();
+  });
+}
+
+/**
+ * Lazy-loads default-content images below the first section. Block images are
+ * handled by createOptimizedPicture; plain default-content pictures (e.g. inline
+ * article-body images) are not, so mark those outside the first section as lazy.
+ * @param {Element} main The main element
+ */
+function lazyLoadBelowFoldImages(main) {
+  const firstSection = main.querySelector(':scope > .section');
+  main.querySelectorAll('.default-content-wrapper img').forEach((img) => {
+    if (firstSection && firstSection.contains(img)) return; // keep above-the-fold eager
+    if (!img.getAttribute('loading')) img.setAttribute('loading', 'lazy');
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -151,8 +196,10 @@ export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  decorateSectionMetadata(main);
   decorateBlocks(main);
   decorateButtons(main);
+  lazyLoadBelowFoldImages(main);
 }
 
 /**

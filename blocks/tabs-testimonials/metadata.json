@@ -1,0 +1,37 @@
+{
+  "variantName": "tabs-testimonials",
+  "baseBlock": "tabs",
+  "version": "1.0.0",
+  "created": "2026-09-02T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd-trendsetters.site/magazine/article-1",
+    "originPage": "magazine article page",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "testimonial",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "active panel (photo + name + role + quote) + per-person tab buttons (avatar + name + role)",
+    "buttonCount": 4,
+    "imageCount": 8
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "interactive testimonial switchers where a tab menu drives a detail panel",
+      "person/profile carousels with an active detail view"
+    ],
+    "notSuitableFor": [
+      "static testimonial lists (use the testimonials block)",
+      "simple content-only tab switchers with no imagery"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/magazine/article-1"],
+    "reuseCount": 1,
+    "lastUsed": "2026-09-02T00:00:00.000Z"
+  }
+}

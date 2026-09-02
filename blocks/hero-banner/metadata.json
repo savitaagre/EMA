@@ -1,0 +1,37 @@
+{
+  "variantName": "hero-banner",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-09-02T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd-trendsetters.site/magazine/article-1",
+    "originPage": "magazine article page",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "cta-banner",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "full-bleed background image + dark overlay + heading + subheading + single CTA",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "full-bleed background-image banners with overlaid text and a CTA",
+      "closing call-to-action bands on dark/inverse backgrounds"
+    ],
+    "notSuitableFor": [
+      "editorial heroes with a text column and adjacent image stack (use hero-split)",
+      "text-only heroes on solid backgrounds"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/magazine/article-1"],
+    "reuseCount": 1,
+    "lastUsed": "2026-09-02T00:00:00.000Z"
+  }
+}

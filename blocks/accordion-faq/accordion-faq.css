@@ -1,0 +1,108 @@
+/* Block: accordion-faq — FAQ accordion.
+   Values extracted from source .faq-list computed styles. */
+
+/* List: vertical stack of items */
+.accordion-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Item: bordered rounded card */
+.accordion-faq .accordion-faq-item {
+  border: 1px solid rgb(232 232 232);
+  border-radius: 16px;
+  background-color: transparent;
+  overflow: hidden;
+}
+
+/* Question row (summary) */
+.accordion-faq .accordion-faq-item-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  padding-right: 68px;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--text-color);
+  text-transform: none;
+  cursor: pointer;
+  list-style: none;
+  transition: background-color 0.2s ease;
+}
+
+.accordion-faq .accordion-faq-item-label::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-faq .accordion-faq-item-label p {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+/* Open + hover state: light background on the question row */
+/* stylelint-disable no-descending-specificity */
+.accordion-faq .accordion-faq-item[open] .accordion-faq-item-label,
+.accordion-faq .accordion-faq-item-label:hover,
+.accordion-faq .accordion-faq-item-label:focus-visible {
+  background-color: var(--light-color);
+}
+/* stylelint-enable no-descending-specificity */
+
+/* Plus icon (two bars) built from pseudo-elements; rotates 45deg into an X on open */
+.accordion-faq .accordion-faq-item-label::before,
+.accordion-faq .accordion-faq-item-label::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 32px;
+  width: 20px;
+  height: 2px;
+  background-color: var(--text-color);
+  border-radius: 1px;
+  transition: transform 0.3s ease;
+}
+
+/* horizontal bar */
+.accordion-faq .accordion-faq-item-label::before {
+  transform: translateY(-50%) rotate(0deg);
+}
+
+/* vertical bar */
+.accordion-faq .accordion-faq-item-label::after {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+/* open: rotate both bars +45deg -> forms an X */
+.accordion-faq .accordion-faq-item[open] .accordion-faq-item-label::before {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.accordion-faq .accordion-faq-item[open] .accordion-faq-item-label::after {
+  transform: translateY(-50%) rotate(135deg);
+}
+
+/* Answer body */
+.accordion-faq .accordion-faq-item-body {
+  padding: 0 32px 32px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgb(64 64 64);
+}
+
+.accordion-faq .accordion-faq-item-body p {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}

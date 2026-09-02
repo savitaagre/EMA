@@ -1,0 +1,14 @@
+{
+  "type": "da",
+  "sites": {
+    "EMA": {
+      "previewOrg": "savitaagre",
+      "previewSite": "EMA",
+      "contentHostUrl": "https://content.da.live/savitaagre/ema/",
+      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json"
+    }
+  },
+  "features": [
+    "site-planning"
+  ]
+}

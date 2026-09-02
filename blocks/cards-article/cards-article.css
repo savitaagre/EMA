@@ -1,0 +1,91 @@
+/* Block: cards-article — "Latest articles" 4-column card grid */
+
+.cards-article > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.cards-article > ul > li {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgb(232 232 232);
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: var(--background-color);
+}
+
+.cards-article .cards-article-card-image {
+  line-height: 0;
+}
+
+.cards-article .cards-article-card-image img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.cards-article .cards-article-card-body {
+  padding: 24px;
+}
+
+.cards-article .cards-article-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.cards-article .cards-article-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.cards-article .cards-article-date {
+  font-size: 14px;
+  color: #666;
+}
+
+.cards-article .cards-article-card-link {
+  display: block;
+  text-decoration: none;
+}
+
+.cards-article .cards-article-card-link:hover {
+  text-decoration: none;
+}
+
+.cards-article .cards-article-card-body h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+/* tablet: 2 across */
+@media (width >= 600px) {
+  .cards-article > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* desktop: 4 across */
+@media (width >= 900px) {
+  .cards-article > ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

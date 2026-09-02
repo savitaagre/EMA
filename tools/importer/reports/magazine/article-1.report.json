@@ -1,0 +1,22 @@
+{
+  "status": "success",
+  "url": "https://wknd-trendsetters.site/magazine/article-1",
+  "path": "magazine/article-1",
+  "timestamp": "2026-09-02T05:11:37.543Z",
+  "title": "WKND Trendsetters - Fresh Looks, Bold Stories, Real Life",
+  "template": "magazine-article",
+  "blocks": [
+    "hero-split",
+    "hero-split",
+    "columns-article",
+    "cards-gallery",
+    "tabs-testimonials",
+    "tabs-testimonials",
+    "tabs-testimonials",
+    "tabs-testimonials",
+    "tabs-testimonials",
+    "cards-article",
+    "accordion-faq",
+    "hero-banner"
+  ]
+}
