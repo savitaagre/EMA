@@ -1,0 +1,109 @@
+/* columns-featured — WKND "Featured Article" teaser
+   Image beside a grey content card (eyebrow + heading + description + CTA).
+   Values extracted from source computed styles. */
+
+.columns-featured > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.columns-featured img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* image cell */
+.columns-featured .columns-featured-img-col {
+  order: 0;
+  padding: 0;
+}
+
+.columns-featured .columns-featured-img-col picture {
+  display: block;
+  height: 100%;
+}
+
+/* content cell — grey card */
+.columns-featured .columns-featured-content-col {
+  order: 1;
+  background-color: rgb(235 235 235);
+  padding: 40px 24px;
+  color: rgb(32 32 32);
+}
+
+/* eyebrow / pretitle — first paragraph */
+.columns-featured .columns-featured-content-col > p:first-child {
+  margin: 0 0 13.5px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 45px;
+  color: rgb(32 32 32);
+}
+
+/* heading — WKND-exact: Asar serif, mixed-case (not the brand Syncopate) */
+.columns-featured .columns-featured-content-col h2 {
+  margin: 18px 0;
+  font-family: Asar, Georgia, 'Times New Roman', Times, serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 54px;
+  text-transform: none;
+  color: rgb(32 32 32);
+}
+
+/* description — body paragraphs */
+/* stylelint-disable-next-line no-descending-specificity */
+.columns-featured .columns-featured-content-col > p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 24.5px;
+  color: rgb(32 32 32);
+}
+
+/* CTA — yellow square button (last paragraph holds the link) */
+.columns-featured .columns-featured-content-col > p:last-child {
+  margin: 18px 0 0;
+}
+
+.columns-featured .columns-featured-content-col a:any-link {
+  display: inline-block;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 14px 35px;
+  background-color: rgb(255 234 0);
+  color: rgb(32 32 32);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.columns-featured .columns-featured-content-col a:any-link:hover,
+.columns-featured .columns-featured-content-col a:any-link:focus-visible {
+  background-color: rgb(230 211 0);
+  color: rgb(32 32 32);
+  text-decoration: none;
+}
+
+@media (width >= 900px) {
+  .columns-featured > div {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  /* image ~62% */
+  .columns-featured .columns-featured-img-col {
+    flex: 2 1 0%;
+  }
+
+  /* grey content card ~38% */
+  .columns-featured .columns-featured-content-col {
+    flex: 1 1 0%;
+    padding: 63px 36px 36px;
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "variantName": "columns-featured",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-09-02T11:45:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en.html",
+    "originPage": "WKND adventure/travel landing page",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "grey",
+    "density": "spacious",
+    "purpose": "featured-article",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image left + text right (eyebrow + heading + paragraph + single CTA) inside a grey card",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "single featured teaser rows with a large image beside eyebrow/heading/paragraph/CTA",
+      "grey-card promotional highlights"
+    ],
+    "notSuitableFor": [
+      "repeating tile grids (use cards-adventure)",
+      "full-bleed hero banners (use hero-overlay / carousel-hero)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/us/en"],
+    "reuseCount": 1,
+    "lastUsed": "2026-09-02T11:45:00.000Z"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "variantName": "cards-adventure",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-09-02T11:45:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en.html",
+    "originPage": "WKND adventure/travel landing page",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "article-adventure-grid",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + linked bold title + short description (4-column grid, no category/date)",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "article/adventure listing grids with image, title and short description",
+      "linked teaser tile rows on white background"
+    ],
+    "notSuitableFor": [
+      "cards requiring category tag or publish date (use cards-article)",
+      "image-only galleries (use cards-gallery)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/us/en"],
+    "reuseCount": 1,
+    "lastUsed": "2026-09-02T11:45:00.000Z"
+  }
+}

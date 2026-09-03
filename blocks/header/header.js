@@ -1,193 +1,170 @@
-// Header / navigation block — content-driven.
-// Reads content/nav.plain.html (flat sections) and builds a horizontal nav
-// with hover megamenus/dropdowns for desktop and a slide-in drawer for mobile.
+// Header / navigation block — content-driven (WKND).
+// Reads content/nav.plain.html (flat sections) and builds a 2-row header:
+// utility bar (sign-in + locale dropdown) + main bar (logo, nav, search).
 
-const DESKTOP_MQ = window.matchMedia('(min-width: 992px)');
+const DESKTOP_MQ = window.matchMedia('(min-width: 900px)');
 
-/**
- * Fetch the nav fragment. Metadata-independent dual-fetch:
- * /content first (localhost / aem up), then root (DA/EDS production).
- */
+/** Metadata-independent dual-fetch: /content first (localhost), then root (DA/EDS). */
 async function fetchNavFragment() {
   let resp = await fetch('/content/nav.plain.html');
   if (!resp.ok) resp = await fetch('/nav.plain.html');
   if (!resp.ok) return null;
   const html = await resp.text();
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-  return doc.body;
+  return new DOMParser().parseFromString(html, 'text/html').body;
 }
 
-/**
- * Classify top-level sections from the fragment.
- * - logo: first section (link to "/")
- * - subscribe: last section (CTA)
- * - menu items: sections in between, each led by an <h2> label
- */
-function classifySections(body) {
-  const sections = [...body.children].filter((el) => el.tagName === 'DIV');
-  return {
-    logoSection: sections[0],
-    subscribeSection: sections[sections.length - 1],
-    menuSections: sections.slice(1, -1),
-  };
+function buildUtility(section) {
+  const util = document.createElement('div');
+  util.className = 'nav-utility';
+
+  // Sign-in link = first standalone <p><a>
+  const signIn = section.querySelector(':scope > p > a');
+  if (signIn) {
+    const a = document.createElement('a');
+    a.className = 'nav-signin';
+    a.href = signIn.getAttribute('href');
+    a.textContent = signIn.textContent.trim();
+    util.append(a);
+  }
+
+  // Locale selector: <h2> current label + <ul> of locale links
+  const label = section.querySelector(':scope > h2');
+  const list = section.querySelector(':scope > ul');
+  if (label && list) {
+    const locale = document.createElement('div');
+    locale.className = 'nav-locale';
+
+    // Country code = the segment after the hyphen in a locale label (en-US → US).
+    const countryOf = (text) => {
+      const parts = text.trim().split('-');
+      return parts.length > 1 ? parts[parts.length - 1].toUpperCase() : '';
+    };
+
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'nav-locale-trigger';
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.setAttribute('aria-haspopup', 'true');
+    trigger.textContent = label.textContent.trim();
+    const triggerCC = countryOf(label.textContent);
+    if (triggerCC) trigger.dataset.country = triggerCC;
+
+    const menu = document.createElement('ul');
+    menu.className = 'nav-locale-menu';
+    [...list.querySelectorAll('li > a')].forEach((a) => {
+      const li = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = a.getAttribute('href');
+      link.textContent = a.textContent.trim();
+      const cc = countryOf(a.textContent);
+      if (cc) link.dataset.country = cc;
+      if (a.textContent.trim() === label.textContent.trim()) link.setAttribute('aria-current', 'true');
+      li.append(link);
+      menu.append(li);
+    });
+
+    trigger.addEventListener('click', () => {
+      const open = trigger.getAttribute('aria-expanded') === 'true';
+      trigger.setAttribute('aria-expanded', String(!open));
+      locale.classList.toggle('is-open', !open);
+    });
+
+    locale.append(trigger, menu);
+    util.append(locale);
+  }
+
+  return util;
 }
 
-function buildLogo(section) {
+function buildBrand(section) {
   const link = section.querySelector('a');
   const brand = document.createElement('a');
   brand.className = 'nav-brand';
   brand.href = link ? link.getAttribute('href') : '/';
-  brand.innerHTML = `
-    <span class="nav-brand-icon" aria-hidden="true">
-      <svg width="100%" height="100%" viewBox="0 0 33 33" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-        <path d="M28,0H5C2.24,0,0,2.24,0,5v23c0,2.76,2.24,5,5,5h23c2.76,0,5-2.24,5-5V5c0-2.76-2.24-5-5-5ZM29,17c-6.63,0-12,5.37-12,12h-1c0-6.63-5.37-12-12-12v-1c6.63,0,12-5.37,12-12h1c0,6.63,5.37,12,12,12v1Z" fill="currentColor"></path>
-      </svg>
-    </span>
-    <span class="nav-brand-text">${link ? link.textContent.trim() : 'Fashion Blog'}</span>`;
+  const img = link ? link.querySelector('img') : null;
+  if (img) {
+    const logo = document.createElement('img');
+    logo.className = 'nav-brand-logo';
+    // Fragment paths are relative to the nav file; normalize to site-absolute
+    // so the logo resolves regardless of the current page path.
+    const src = img.getAttribute('src');
+    logo.src = /^(https?:)?\/\//.test(src) || src.startsWith('/') ? src : `/${src}`;
+    logo.alt = img.getAttribute('alt') || 'WKND Logo';
+    brand.append(logo);
+  } else {
+    brand.textContent = link ? link.textContent.trim() : 'WKND';
+  }
   return brand;
 }
 
-function buildSubscribe(section) {
-  const link = section.querySelector('a');
-  const cta = document.createElement('a');
-  cta.className = 'nav-subscribe button';
-  cta.href = link ? link.getAttribute('href') : '#';
-  cta.textContent = link ? link.textContent.trim() : 'Subscribe';
-  return cta;
-}
-
-/** A menu item is a plain link when it has no column headings and no link list. */
-function isPlainLink(section) {
-  const hasColumns = section.querySelector(':scope > h3');
-  const listItems = section.querySelectorAll(':scope > ul > li').length;
-  return !hasColumns && listItems === 0;
-}
-
-const ICON_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 4a12 12 0 1 0 12 12A12 12 0 0 0 16 4Zm0 22a10 10 0 1 1 10-10 10 10 0 0 1-10 10Z"/><circle cx="16" cy="16" r="4"/></svg>';
-
-function buildMegaColumns(section, panel) {
-  panel.classList.add('nav-panel-mega');
-  [...section.querySelectorAll(':scope > h3')].forEach((h3) => {
-    const col = document.createElement('div');
-    col.className = 'nav-panel-col';
-    const heading = document.createElement('h3');
-    heading.textContent = h3.textContent.trim();
-    col.append(heading);
-    const list = h3.nextElementSibling;
-    if (list && list.tagName === 'UL') {
-      const ul = document.createElement('ul');
-      [...list.querySelectorAll('li > a')].forEach((a) => {
-        const item = document.createElement('li');
-        const link = document.createElement('a');
-        link.className = 'nav-mega-link';
-        link.href = a.getAttribute('href');
-        const strong = a.querySelector('strong');
-        const title = strong ? strong.textContent.trim() : a.textContent.trim();
-        const desc = strong ? a.textContent.replace(strong.textContent, '').trim() : '';
-        link.innerHTML = `<span class="nav-mega-icon" aria-hidden="true">${ICON_SVG}</span>`
-          + `<span class="nav-mega-text"><strong>${title}</strong> <span>${desc}</span></span>`;
-        item.append(link);
-        ul.append(item);
-      });
-      col.append(ul);
-    }
-    panel.append(col);
-  });
-  // Featured card = trailing <p><a> after the columns
-  const featured = section.querySelector(':scope > p > a');
-  if (featured) {
-    const card = document.createElement('a');
-    card.className = 'nav-panel-featured';
-    card.href = featured.getAttribute('href');
-    const strong = featured.querySelector('strong');
-    const heading = strong ? strong.textContent.trim() : '';
-    let rest = featured.textContent.replace(heading, '').trim();
-    const cta = 'Discover';
-    if (rest.endsWith(cta)) rest = rest.slice(0, -cta.length).trim();
-    card.innerHTML = `<h3 class="nav-featured-title">${heading}</h3>`
-      + `<span class="nav-featured-desc">${rest}</span>`
-      + `<span class="nav-featured-cta">${cta}</span>`;
-    panel.append(card);
-  }
-}
-
-function buildSimpleColumn(section, panel) {
-  panel.classList.add('nav-panel-simple');
+function buildMainNav(section) {
+  const nav = document.createElement('nav');
+  nav.className = 'nav-main';
+  nav.setAttribute('aria-label', 'Main navigation');
   const ul = document.createElement('ul');
+  ul.className = 'nav-list';
   [...section.querySelectorAll(':scope > ul > li > a')].forEach((a) => {
-    const item = document.createElement('li');
+    const li = document.createElement('li');
+    li.className = 'nav-item';
     const link = document.createElement('a');
+    link.className = 'nav-link';
     link.href = a.getAttribute('href');
     link.textContent = a.textContent.trim();
-    item.append(link);
-    ul.append(item);
+    li.append(link);
+    ul.append(li);
   });
-  panel.append(ul);
+  nav.append(ul);
+  return nav;
 }
 
-function closeAllDropdowns(scope) {
-  if (!scope) return;
-  scope.querySelectorAll('.nav-item-dropdown.is-open').forEach((item) => {
-    item.classList.remove('is-open');
-    const t = item.querySelector('.nav-dropdown-trigger');
-    if (t) t.setAttribute('aria-expanded', 'false');
+/** Search is a form control → built in JS, not in the fragment. */
+const SEARCH_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6.5 1a5.5 5.5 0 0 1 4.383 8.82l3.898 3.9-1.06 1.06-3.9-3.898A5.5 5.5 0 1 1 6.5 1Zm0 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" fill="currentColor"/></svg>';
+
+function buildSearch() {
+  const form = document.createElement('form');
+  form.className = 'nav-search';
+  form.setAttribute('role', 'search');
+
+  const icon = document.createElement('span');
+  icon.className = 'nav-search-icon';
+  icon.setAttribute('aria-hidden', 'true');
+  icon.innerHTML = SEARCH_ICON;
+
+  const input = document.createElement('input');
+  input.type = 'search';
+  input.className = 'nav-search-input';
+  input.setAttribute('aria-label', 'Search');
+  input.placeholder = 'Search';
+
+  form.append(icon, input);
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = input.value.trim();
+    if (q) window.location.href = `/us/en/search.html?q=${encodeURIComponent(q)}`;
   });
-}
-
-function buildMenuItem(section) {
-  const li = document.createElement('li');
-  li.className = 'nav-item';
-  const label = section.querySelector(':scope > h2');
-  const labelText = label ? label.textContent.trim() : '';
-
-  if (isPlainLink(section)) {
-    const link = section.querySelector('a');
-    const a = document.createElement('a');
-    a.className = 'nav-link';
-    a.href = link ? link.getAttribute('href') : '#';
-    a.textContent = labelText;
-    li.append(a);
-    return li;
-  }
-
-  li.classList.add('nav-item-dropdown');
-  const trigger = document.createElement('button');
-  trigger.type = 'button';
-  trigger.className = 'nav-link nav-dropdown-trigger';
-  trigger.setAttribute('aria-expanded', 'false');
-  trigger.setAttribute('aria-haspopup', 'true');
-  trigger.innerHTML = `<span>${labelText}</span><span class="nav-caret" aria-hidden="true">`
-    + '<svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 11 3 6h10z"/></svg></span>';
-
-  const panel = document.createElement('div');
-  panel.className = 'nav-panel';
-  if (section.querySelector(':scope > h3')) buildMegaColumns(section, panel);
-  else buildSimpleColumn(section, panel);
-
-  li.append(trigger, panel);
-
-  trigger.addEventListener('click', () => {
-    const open = trigger.getAttribute('aria-expanded') === 'true';
-    closeAllDropdowns(li.closest('.nav-menu'));
-    trigger.setAttribute('aria-expanded', String(!open));
-    li.classList.toggle('is-open', !open);
-  });
-
-  return li;
+  return form;
 }
 
 export default async function decorate(block) {
   const body = await fetchNavFragment();
   if (!body) return;
 
-  const { logoSection, subscribeSection, menuSections } = classifySections(body);
+  const sections = [...body.children].filter((el) => el.tagName === 'DIV');
+  const [utilitySection, brandSection, navSection] = sections;
 
-  const nav = document.createElement('nav');
+  const nav = document.createElement('div');
   nav.className = 'nav-inner';
   nav.id = 'nav';
-  nav.setAttribute('aria-label', 'Main navigation');
 
-  nav.append(buildLogo(logoSection));
+  // Row 1: utility bar
+  const utilityBar = document.createElement('div');
+  utilityBar.className = 'nav-utility-bar';
+  if (utilitySection) utilityBar.append(buildUtility(utilitySection));
+
+  // Row 2: main bar
+  const mainBar = document.createElement('div');
+  mainBar.className = 'nav-main-bar';
+  if (brandSection) mainBar.append(buildBrand(brandSection));
 
   const hamburger = document.createElement('button');
   hamburger.type = 'button';
@@ -198,13 +175,11 @@ export default async function decorate(block) {
 
   const menu = document.createElement('div');
   menu.className = 'nav-menu';
-  const ul = document.createElement('ul');
-  ul.className = 'nav-list';
-  menuSections.forEach((section) => ul.append(buildMenuItem(section)));
-  menu.append(ul);
-  menu.append(buildSubscribe(subscribeSection));
+  if (navSection) menu.append(buildMainNav(navSection));
+  menu.append(buildSearch());
 
-  nav.append(menu, hamburger);
+  mainBar.append(menu, hamburger);
+  nav.append(utilityBar, mainBar);
 
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
@@ -219,14 +194,20 @@ export default async function decorate(block) {
     document.body.classList.toggle('nav-open', !open);
   });
 
+  // Close locale dropdown / mobile menu when clicking outside
   document.addEventListener('click', (e) => {
-    if (!nav.contains(e.target)) closeAllDropdowns(menu);
+    if (!nav.contains(e.target)) {
+      nav.querySelectorAll('.nav-locale.is-open').forEach((l) => {
+        l.classList.remove('is-open');
+        l.querySelector('.nav-locale-trigger')?.setAttribute('aria-expanded', 'false');
+      });
+    }
   });
 
+  // Reset on breakpoint change
   DESKTOP_MQ.addEventListener('change', () => {
     nav.classList.remove('is-open');
     document.body.classList.remove('nav-open');
     hamburger.setAttribute('aria-expanded', 'false');
-    closeAllDropdowns(menu);
   });
 }

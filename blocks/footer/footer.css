@@ -1,50 +1,78 @@
-/* Footer — matches wknd-trendsetters source (black bg, white text, 4-col grid).
-   Mobile-first: base is stacked; min-width enhances to columns. */
+/* Footer — WKND (content-driven).
+ * Dark bar rgb(32,32,32), light text rgb(235,235,235).
+ * Rows: logo + footer nav + "Follow Us"/social, a divider, then copyright/legal.
+ * Source values from https://wknd.site/us/en.html computed styles:
+ *  - nav links: Source Sans Pro 14px/400 uppercase rgb(235,235,235)
+ *  - "Follow Us" heading: 16px/600 uppercase
+ *  - legal copy: 12px, line-height 15px, rgb(247,247,247)
+ * Mobile-first; breakpoint at 900px (desktop). */
 
 footer {
-  background-color: #000;
-  color: #fff;
+  background-color: rgb(32 32 32);
+  color: rgb(235 235 235);
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 footer .footer-inner {
   box-sizing: border-box;
   max-width: 1200px;
-  margin: auto;
-  padding: 80px 24px;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
-  font-family: var(--body-font-family);
+  margin: 0 auto;
+  padding: 40px 24px 32px;
 }
 
-/* Brand + social */
-footer .footer-brand-block {
+/* ---- Top row ---- */
+footer .footer-top {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 32px;
 }
 
 footer .footer-brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  color: #fff;
-  text-decoration: none;
   width: fit-content;
+  text-decoration: none;
+  color: rgb(235 235 235);
 }
 
-footer .footer-brand-icon {
-  display: inline-flex;
-  width: 33px;
-  height: 33px;
+footer .footer-brand-logo {
+  display: block;
+  height: 56px;
+  width: auto;
 }
 
-footer .footer-brand-text {
-  font-family: var(--heading-font-family);
-  font-weight: 700;
+/* ---- Footer nav ---- */
+footer .footer-nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+footer .footer-nav-links a {
+  color: rgb(235 235 235);
   font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+footer .footer-nav-links a:hover {
+  color: #fff;
+}
+
+/* ---- Follow Us / social ---- */
+footer .footer-social-heading {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  text-transform: uppercase;
+  color: rgb(235 235 235);
 }
 
 footer .footer-social {
@@ -55,12 +83,13 @@ footer .footer-social {
   gap: 16px;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 footer .footer-social a {
   display: inline-flex;
-  width: 20px;
-  height: 20px;
-  color: #fff;
-  transition: color 0.2s ease, opacity 0.2s ease;
+  width: 24px;
+  height: 24px;
+  color: rgb(235 235 235);
+  transition: opacity 0.2s ease;
 }
 
 footer .footer-social a:hover {
@@ -72,43 +101,54 @@ footer .footer-social svg {
   height: 100%;
 }
 
-/* Link columns */
-footer .footer-col-heading {
-  margin: 0 0 16px;
-  font-family: var(--heading-font-family);
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #999;
+/* ---- Divider ---- */
+footer .footer-divider {
+  margin: 32px 0 24px;
+  border: 0;
+  border-top: 1px solid rgb(80 80 80);
 }
 
-footer .footer-col-links {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* ---- Legal / copyright ---- */
+footer .footer-legal p {
+  margin: 0 0 12px;
+  font-size: 12px;
+  line-height: 15px;
+  color: rgb(247 247 247);
+}
+
+footer .footer-legal p:last-child {
+  margin-bottom: 0;
+}
+
+footer .footer-copyright {
+  font-weight: 600;
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
-footer .footer-col-links a {
-  color: #999;
-  text-decoration: none;
-  font-size: 14px;
-  line-height: 1.6;
-  transition: color 0.2s ease;
+footer .footer-legal a {
+  color: rgb(247 247 247);
+  text-decoration: underline;
 }
 
-footer .footer-col-links a:hover {
+footer .footer-legal a:hover {
   color: #fff;
 }
 
 /* ============ Desktop ============ */
 @media (width >= 900px) {
   footer .footer-inner {
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    padding: 40px 32px 32px;
+  }
+
+  footer .footer-top {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 48px;
+  }
+
+  footer .footer-nav-links {
+    flex-flow: row wrap;
     gap: 32px;
-    padding: 80px 32px;
   }
 }

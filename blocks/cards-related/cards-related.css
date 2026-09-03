@@ -1,0 +1,57 @@
+/* cards-related — sidebar "up next" list of related articles (no images).
+   Each card is a single stacked entry: article title + publish date, linked. */
+
+.cards-related > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards-related > ul > li {
+  border-bottom: 1px solid #dadada;
+  background-color: var(--background-color);
+}
+
+.cards-related > ul > li:last-child {
+  border-bottom: none;
+}
+
+.cards-related .cards-related-card-body {
+  margin: 16px 0;
+}
+
+.cards-related .cards-related-card-body a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.cards-related .cards-related-card-body h1,
+.cards-related .cards-related-card-body h2,
+.cards-related .cards-related-card-body h3,
+.cards-related .cards-related-card-body h4,
+.cards-related .cards-related-card-body h5,
+.cards-related .cards-related-card-body h6 {
+  margin: 0 0 4px;
+  font-size: var(--body-font-size-m);
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.cards-related .cards-related-card-body p {
+  margin: 0;
+  font-size: var(--body-font-size-xs);
+  color: #6d6d6d;
+}
+
+/* Image cell retained for defensive authoring if an image is ever added. */
+.cards-related .cards-related-card-image {
+  line-height: 0;
+}
+
+.cards-related .cards-related-card-image img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
