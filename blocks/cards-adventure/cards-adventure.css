@@ -1,0 +1,76 @@
+/* Block: cards-adventure — WKND article/adventure teaser grid (image-list).
+ * Values extracted from https://wknd.site/us/en.html computed styles:
+ *  - grid: 4 cols desktop / 2 tablet / 1 mobile, column gap 14px, row gap 32px
+ *  - image: aspect ~13/10, object-fit cover, no border/radius
+ *  - title: 18px / 600 / uppercase / rgb(32,32,32), line-height 27px, ~2px below image
+ *  - description: 14px / rgb(105,105,105), line-height 21px, 16px below title
+ *  - no card border, background or shadow
+ */
+
+.cards-adventure > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px 14px;
+}
+
+.cards-adventure > ul > li {
+  display: flex;
+  flex-direction: column;
+}
+
+.cards-adventure .cards-adventure-card-image {
+  line-height: 0;
+}
+
+.cards-adventure .cards-adventure-card-image img {
+  width: 100%;
+  aspect-ratio: 13 / 10;
+  object-fit: cover;
+}
+
+.cards-adventure .cards-adventure-card-body {
+  margin-top: 2px;
+}
+
+.cards-adventure .cards-adventure-card-link {
+  display: block;
+  text-decoration: none;
+}
+
+.cards-adventure .cards-adventure-card-link:hover {
+  text-decoration: none;
+}
+
+.cards-adventure .cards-adventure-card-title {
+  display: block;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 27px;
+  text-transform: uppercase;
+  color: rgb(32 32 32);
+}
+
+.cards-adventure .cards-adventure-card-desc {
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 21px;
+  color: rgb(105 105 105);
+}
+
+/* tablet: 2 across */
+@media (width >= 600px) {
+  .cards-adventure > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* desktop: 4 across */
+@media (width >= 900px) {
+  .cards-adventure > ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

@@ -1,167 +1,8 @@
 {
+  "metadata": {
+    "projectType": "da"
+  },
   "templates": [
-    {
-      "name": "home",
-      "urls": [
-        "https://wknd.site/us/en.html"
-      ],
-      "representativeUrl": "https://wknd.site/us/en.html",
-      "description": "To be named in naming step",
-      "blocks": [
-        {
-          "name": "carousel-hero",
-          "instances": [
-            ".carousel.cmp-carousel--hero"
-          ]
-        },
-        {
-          "name": "columns-featured",
-          "instances": [
-            ".teaser.cmp-teaser--featured"
-          ]
-        },
-        {
-          "name": "cards-adventure",
-          "instances": [
-            "main.cmp-layout-container--fixed:nth-of-type(1) .image-list.list",
-            "main.cmp-layout-container--fixed:nth-of-type(2) .image-list.list"
-          ]
-        },
-        {
-          "name": "hero-overlay",
-          "instances": [
-            ".teaser.cmp-teaser--hero.cmp-teaser--imagebottom"
-          ]
-        }
-      ],
-      "sections": [
-        {
-          "id": "rc1",
-          "name": "Hero carousel",
-          "selector": ".carousel.cmp-carousel--hero",
-          "style": null,
-          "blocks": [
-            "carousel-hero"
-          ],
-          "defaultContent": []
-        },
-        {
-          "id": "rc3",
-          "name": "Featured article",
-          "selector": ".teaser.cmp-teaser--featured",
-          "style": null,
-          "blocks": [
-            "columns-featured"
-          ],
-          "defaultContent": []
-        },
-        {
-          "id": "rc4-rc5",
-          "name": "Recent articles",
-          "selector": "main.cmp-layout-container--fixed:nth-of-type(1)",
-          "style": null,
-          "blocks": [
-            "cards-adventure"
-          ],
-          "defaultContent": [
-            "main.cmp-layout-container--fixed:nth-of-type(1) .cmp-title",
-            "main.cmp-layout-container--fixed:nth-of-type(1) .cmp-button"
-          ]
-        },
-        {
-          "id": "rc8-rc10",
-          "name": "Next adventures",
-          "selector": ".teaser.cmp-teaser--hero.cmp-teaser--imagebottom",
-          "style": null,
-          "blocks": [
-            "hero-overlay"
-          ],
-          "defaultContent": []
-        },
-        {
-          "id": "rc11-rc12",
-          "name": "Where do you want to go",
-          "selector": "main.cmp-layout-container--fixed:nth-of-type(2)",
-          "style": null,
-          "blocks": [
-            "cards-adventure"
-          ],
-          "defaultContent": [
-            "main.cmp-layout-container--fixed:nth-of-type(2) .cmp-title",
-            "main.cmp-layout-container--fixed:nth-of-type(2) .cmp-button"
-          ]
-        }
-      ],
-      "urlPattern": "/us/*"
-    },
-    {
-      "name": "magazine",
-      "urls": [
-        "https://wknd.site/us/en/magazine/arctic-surfing.html",
-        "https://wknd.site/us/en/magazine/guide-la-skateparks.html",
-        "https://wknd.site/us/en/magazine/san-diego-surf.html",
-        "https://wknd.site/us/en/magazine/ski-touring.html",
-        "https://wknd.site/us/en/magazine/western-australia.html"
-      ],
-      "representativeUrl": "https://wknd.site/us/en/magazine/arctic-surfing.html",
-      "description": "WKND magazine article page: lead image, rich article body, and a related-articles (\"Up Next\") list.",
-      "blocks": [
-        {
-          "name": "cards-related",
-          "instances": [
-            ".list.cmp-list--upnext",
-            ".cmp-list--upnext"
-          ]
-        }
-      ],
-      "urlPattern": "/us/en/magazine/*",
-      "sections": [
-        {
-          "id": "rc1",
-          "name": "Lead image",
-          "selector": [
-            "main.cmp-layout-container--fixed > div.cmp-container > div > div.image",
-            "div.image.aem-GridColumn--default--12"
-          ],
-          "style": null,
-          "blocks": [],
-          "defaultContent": [
-            "div.image"
-          ]
-        },
-        {
-          "id": "rc-article",
-          "name": "Article body",
-          "selector": [
-            "main.container.responsivegrid.cmp-layout-container--fixed main.container.responsivegrid",
-            "main.aem-GridColumn--default--8"
-          ],
-          "style": null,
-          "blocks": [],
-          "defaultContent": [
-            "h1",
-            "main.aem-GridColumn--default--8 .text",
-            "main.aem-GridColumn--default--8 .image"
-          ]
-        },
-        {
-          "id": "rc-sidebar",
-          "name": "Share & Up Next sidebar",
-          "selector": [
-            "aside.cmp-layoutcontainer--sidebar",
-            "aside.container.responsivegrid.cmp-layoutcontainer--sidebar"
-          ],
-          "style": null,
-          "blocks": [
-            "cards-related"
-          ],
-          "defaultContent": [
-            "aside .title",
-            "aside .sharebar"
-          ]
-        }
-      ]
-    },
     {
       "name": "fashion-trends-of-the-season",
       "urls": [
@@ -387,8 +228,7 @@
           ],
           "defaultContent": []
         }
-      ],
-      "urlPattern": "/magazine/*"
+      ]
     },
     {
       "name": "blog",
@@ -442,8 +282,5 @@
         }
       ]
     }
-  ],
-  "metadata": {
-    "projectType": "da"
-  }
+  ]
 }

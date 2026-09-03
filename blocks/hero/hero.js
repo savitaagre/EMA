@@ -30,7 +30,12 @@ function buildBackgroundVideo(block) {
 
   // Use an existing hero picture as the poster / fallback if present.
   const poster = block.querySelector('picture img');
-  if (poster && poster.src) video.setAttribute('poster', poster.src);
+  if (poster && poster.src) {
+    video.setAttribute('poster', poster.src);
+    // The poster is the LCP candidate for the video hero — prioritize it.
+    poster.setAttribute('fetchpriority', 'high');
+    poster.setAttribute('loading', 'eager');
+  }
 
   const source = document.createElement('source');
   source.src = videoLink.href;

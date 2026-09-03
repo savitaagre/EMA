@@ -6,7 +6,7 @@
         "https://wknd.site/us/en.html"
       ],
       "representativeUrl": "https://wknd.site/us/en.html",
-      "description": "To be named in naming step",
+      "description": "WKND home page: hero carousel, featured article, article/adventure card grids, overlay teaser.",
       "blocks": [
         {
           "name": "carousel-hero",
@@ -34,6 +34,7 @@
           ]
         }
       ],
+      "urlPattern": "/us/*",
       "sections": [
         {
           "id": "rc1",
@@ -89,75 +90,6 @@
           "defaultContent": [
             "main.cmp-layout-container--fixed:nth-of-type(2) .cmp-title",
             "main.cmp-layout-container--fixed:nth-of-type(2) .cmp-button"
-          ]
-        }
-      ],
-      "urlPattern": "/us/*"
-    },
-    {
-      "name": "magazine",
-      "urls": [
-        "https://wknd.site/us/en/magazine/arctic-surfing.html",
-        "https://wknd.site/us/en/magazine/guide-la-skateparks.html",
-        "https://wknd.site/us/en/magazine/san-diego-surf.html",
-        "https://wknd.site/us/en/magazine/ski-touring.html",
-        "https://wknd.site/us/en/magazine/western-australia.html"
-      ],
-      "representativeUrl": "https://wknd.site/us/en/magazine/arctic-surfing.html",
-      "description": "WKND magazine article page: lead image, rich article body, and a related-articles (\"Up Next\") list.",
-      "blocks": [
-        {
-          "name": "cards-related",
-          "instances": [
-            ".list.cmp-list--upnext",
-            ".cmp-list--upnext"
-          ]
-        }
-      ],
-      "urlPattern": "/us/en/magazine/*",
-      "sections": [
-        {
-          "id": "rc1",
-          "name": "Lead image",
-          "selector": [
-            "main.cmp-layout-container--fixed > div.cmp-container > div > div.image",
-            "div.image.aem-GridColumn--default--12"
-          ],
-          "style": null,
-          "blocks": [],
-          "defaultContent": [
-            "div.image"
-          ]
-        },
-        {
-          "id": "rc-article",
-          "name": "Article body",
-          "selector": [
-            "main.container.responsivegrid.cmp-layout-container--fixed main.container.responsivegrid",
-            "main.aem-GridColumn--default--8"
-          ],
-          "style": null,
-          "blocks": [],
-          "defaultContent": [
-            "h1",
-            "main.aem-GridColumn--default--8 .text",
-            "main.aem-GridColumn--default--8 .image"
-          ]
-        },
-        {
-          "id": "rc-sidebar",
-          "name": "Share & Up Next sidebar",
-          "selector": [
-            "aside.cmp-layoutcontainer--sidebar",
-            "aside.container.responsivegrid.cmp-layoutcontainer--sidebar"
-          ],
-          "style": null,
-          "blocks": [
-            "cards-related"
-          ],
-          "defaultContent": [
-            "aside .title",
-            "aside .sharebar"
           ]
         }
       ]
@@ -387,8 +319,7 @@
           ],
           "defaultContent": []
         }
-      ],
-      "urlPattern": "/magazine/*"
+      ]
     },
     {
       "name": "blog",
